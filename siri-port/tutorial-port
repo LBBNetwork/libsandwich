@@ -1,0 +1,44 @@
+/*++
+
+Copyright (C) 2011-2012 The Little Beige Box, http://www.beige-box.com
+Licensed under the GNU General Public License v2
+
+File name:
+
+    tutorial-port
+
+Abstract:
+
+--*/
+
+Well hello there!
+
+Getting assistant to run on your device is relatively easy, however, note that
+dragons be ahead, so be wary, and don't do anything stupid.
+
+This is not a step-for-step tutorial, you will need intelligence to carry this procedure
+out, however, you won't need to be a l33t h4x0r to know what to do.
+
+First, you will need to copy the resources from an iPhone 4S also known as the N94AP, such
+as the dyld shared cache from /System/Library/Caches, and various framework resource files. 
+(These are: AssistantServices, AssistantUI and SAObjects.framework). You will also need to
+copy over the launch daemon property list files from the /System/Library/LaunchDaemons directory.
+
+Second, you will need to modify the plist files to include the DYLD_INSERT_LIBRARIES to include
+/usr/lib/libsandwich.dylib (which we will compile later), and set DYLD_FORCE_FLAT_NAMESPACE to 1,
+ you need to modify com.apple.SpringBoard.plist, com.apple.assistantd.plist and the same for 
+assistant_services.
+
+Third, you will need to get the sessionValidationData member from a 4S using applidium's siri server
+or any generic SSL MITM proxy, and then put a hex dump in com.vlo.libsandwich.plist 
+(don't forget to define what's necessary!), then put all the necessary GUIDs in /var/mobile/Library/Preferences/com.apple.assistant.plist. com.vlo.libsandwich.plist  goes in /var/mobile/Library/Preferences/ also. convertValidationData.rb may help :)
+
+Compile libsandwich and place the dylib in /usr/lib!
+
+Kill springboard and start the daemons, that should be it.
+
+PS: Don't forget the GL driver, you may want it.
+
+Thanks!
+The Little Beige Box
+http://www.beige-box.com
